@@ -1,13 +1,14 @@
+
 int SumOfThirteen(int n)
 {
   int kolvo = 0;
   for (int i = 0; i < n; i++)
+  {
+    if (SumOfDigits(i) % 13 == 0)
     {
-      if (SumOfDigits(i) % 13 == 0)
-      {
-          kolvo++;
-      }
+      kolvo++;
     }
+  }
   return kolvo;
 }
 
