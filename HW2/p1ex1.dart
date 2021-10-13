@@ -11,5 +11,5 @@ int SumOfDigits(int x)
 
 void main ()
 {
-  print(SumOfDigits(165));
+  print(SumOfDigits(145));
 }
