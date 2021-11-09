@@ -13,7 +13,7 @@ class Collections
 
   }
 
-  static int time ()
+  static int get time
   {
     return TimeCount;
   }
