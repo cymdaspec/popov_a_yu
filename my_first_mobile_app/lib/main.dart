@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
       Future randomPictureEveryTiming() { //пока что меняет картинку 1 раз с задержкой в 1с
-        return Future.delayed(Duration(seconds: 1), () =>
+        return Future.delayed(const Duration(seconds: 1), () =>
             setState
               (
                     () {
