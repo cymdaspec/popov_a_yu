@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main()
 {
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const MyHomePage(title: 'Cl0ud R4p 20l6'),
+      home: const MyHomePage(title: '𝙘𝙡𝙤𝙪𝙙 𝙧𝙖𝙥'),
     );
   }
 }
@@ -28,29 +30,57 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
-
 class _MyHomePageState extends State<MyHomePage>
 {
+
   int counter = 1;
-  void PreviousPicture()
+  int counterCurrent = 1;
+  Random random = Random();
+  void previousPicture()
   {
     setState(()
     {
       counter--;
-      if (counter == 0)
-        counter = 4;
+      if (counter == 0) {
+        counter = 10;
+      }
     });
   }
 
-  void NextPicture()
+  void nextPicture()
   {
     setState(()
     {
       counter++;
-      if (counter == 5)
+      if (counter == 11) {
         counter = 1;
+      }
     });
   }
+
+  void randomPicture()
+  {
+    setState(()
+    {
+      counterCurrent = counter;
+      counter = random.nextInt(10) + 1;
+      if (counter == counterCurrent)
+        {
+          counter = random.nextInt(10) + 1;
+        }
+    });
+  }
+
+      Future randomPictureEveryTiming() { //пока что меняет картинку 1 раз с задержкой в 1с
+        return Future.delayed(Duration(seconds: 1), () =>
+            setState
+              (
+                    () {
+                  counter = random.nextInt(10) + 1;
+                }
+            )
+        );
+      }
 
 
   @override
@@ -64,30 +94,63 @@ class _MyHomePageState extends State<MyHomePage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text
-              (
-              'tap the buttons to change aesthetic pics . . .',
-              style: TextStyle(fontSize:18, fontStyle: FontStyle.italic),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+              children:
+              [
+                    const Text
+                    (
+                      'Tap the buttons to change aesthetic pics ',
+                      style: TextStyle(fontSize:18, fontStyle: FontStyle.italic),
+                    ),
+
+                Image.asset(
+                    "assets/pics/crystal.gif",
+                  width: 25,
+                  height: 25,
+                ),
+                ]
             ),
-            Image.asset("assets/pics/$counter.jpg" ,fit:BoxFit.contain),
-            Text
-              (
-              'pic number $counter'
+            Column(
+              children: [
+                AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child:
+                Image.asset
+                (
+                  "assets/pics/$counter.jpg" ,
+                  fit:BoxFit.cover,
+                ),
+                ),
+                Text
+                  (
+                  'aesthetic pic number $counter'
+                ),
+              ]
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                  onPressed: PreviousPicture,
-                  child: Text(
-                    '<-'
-                  )
+                  onPressed: previousPicture,
+                  child: const Icon (Icons.arrow_back)
+                  ),
+                Column (
+                  children:[
+                    ElevatedButton(
+                        onPressed: randomPicture,
+                        child: const Text ("Random")
+                    ),
+                    ElevatedButton(
+                        onPressed: randomPictureEveryTiming,
+                        child:
+                          const Text ("Random every 1s"),
+                    ),
+                    ]
                 ),
                 ElevatedButton(
-                  onPressed: NextPicture,
-                  child: Text(
-                    '->'
-                  )
+                  onPressed: nextPicture,
+                  child: const Icon(Icons.arrow_forward)
                 )
               ],
             )
