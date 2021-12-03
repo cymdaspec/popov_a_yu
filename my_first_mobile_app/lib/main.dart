@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 }
 class _MyHomePageState extends State<MyHomePage>
 {
-
+  bool slideShowOnPressed = false;
   int counter = 1;
   int counterCurrent = 1;
   Random random = Random();
@@ -71,25 +71,12 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
-      Future randomPictureEveryTiming() { //пока что меняет картинку 1 раз с задержкой в 1с
-        return Future.delayed(const Duration(milliseconds: 250), () =>
-            setState
-              (
-                    () {
-                  counter = random.nextInt(10) + 1;
-                }
-            )
-        );
-      }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -142,10 +129,26 @@ class _MyHomePageState extends State<MyHomePage>
                         child: const Text ("Random")
                     ),
                     ElevatedButton(
-                        onPressed: randomPictureEveryTiming,
+
+                        onPressed: ()
+                        async{
+                          if (slideShowOnPressed == true)
+                          {
+                            slideShowOnPressed = false;
+                          }
+                          else
+                          {
+                            slideShowOnPressed = true;
+                          }
+                          while (slideShowOnPressed == true) {
+                            randomPicture();
+                            await Future.delayed(const Duration(
+                                milliseconds: 500));
+                          }
+                        },
                         child:
-                          const Text ("Random every 1s"),
-                    ),
+                        const Text ("Random every 0,5s")
+                        ),
                     ]
                 ),
                 ElevatedButton(
